@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="uz"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Atamalar</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#ffffff">
+<style>
+:root{--bg:#f6f3ec;--card:#fff;--tx:#1d2a2a;--mu:#5d6b6b;--ac:#0f766e;--ac2:#d9efec;--bd:#e0dccf;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#111716;--card:#1a2322;--tx:#e8efee;--mu:#9bb0ae;--ac:#4fd1c5;--ac2:#1f3a37;--bd:#2c3b39;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#111716;--card:#1a2322;--tx:#e8efee;--mu:#9bb0ae;--ac:#4fd1c5;--ac2:#1f3a37;--bd:#2c3b39;color-scheme:dark}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+.w{max-width:680px;margin:0 auto;padding:16px}
+h1{font-size:22px;margin:4px 0 12px}
+.sub{margin:0 0 16px;color:var(--mu)}
+.hc{display:block;width:100%;text-align:left;background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:14px;margin-bottom:10px;color:var(--tx);font:inherit}
+.hc b{font-size:18px}.hc .r{float:right;font-size:13px;color:var(--mu)}.hc small{display:block;color:var(--mu);font-size:14px}
+#back{margin-bottom:12px}
+#sp{position:fixed;inset:0;z-index:99;background:var(--ac);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;transition:opacity .6s,transform .6s}
+#sp.bye{opacity:0;transform:scale(1.15);pointer-events:none}
+#si{font-size:76px;animation:swing 1.6s ease-in-out infinite;transform-origin:50% 0}
+@keyframes swing{0%,100%{transform:rotate(-14deg)}50%{transform:rotate(14deg)}}
+#st{font-size:46px;font-weight:800;letter-spacing:2px;margin-top:14px;display:flex}
+#st span{display:inline-block;opacity:0;animation:dr .7s cubic-bezier(.3,1.6,.5,1) forwards}
+@keyframes dr{0%{opacity:0;transform:translateY(-120px) rotate(-40deg) scale(.3)}100%{opacity:1;transform:none}}
+#ss{margin-top:8px;opacity:0;animation:fi .8s 1.4s forwards;letter-spacing:3px;font-size:14px;text-transform:uppercase}
+@keyframes fi{to{opacity:.85}}
+#sw{position:absolute;inset:0;pointer-events:none}
+#sw i{position:absolute;bottom:-40px;font-style:normal;font-size:15px;opacity:0;color:#d9efec;animation:up linear infinite}
+@keyframes up{0%{transform:translateY(0);opacity:0}15%{opacity:.55}100%{transform:translateY(-110vh);opacity:0}}
+@media (prefers-reduced-motion:reduce){#si,#st span{animation:none;opacity:1}#sw{display:none}}
+.tabs{display:flex;gap:8px;overflow-x:auto;margin-bottom:12px}
+.tab{border:1px solid var(--bd);background:var(--card);color:var(--tx);padding:8px 16px;border-radius:20px;font-size:15px;white-space:nowrap}
+.tab.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+input{width:100%;padding:12px 14px;border-radius:12px;border:1px solid var(--bd);background:var(--card);color:var(--tx);font-size:16px}
+.cnt{color:var(--mu);font-size:13px;margin:10px 2px}
+.t{background:var(--card);border:1px solid var(--bd);border-radius:12px;margin-bottom:8px;padding:12px 14px}
+.t b{font-size:17px}.o{color:var(--mu);font-size:13px;font-style:italic;margin-left:6px}
+.d{display:none;margin-top:6px;color:var(--tx)}.t.open .d{display:block}
+.l{position:sticky;top:0;background:var(--ac2);color:var(--ac);font-weight:700;padding:4px 10px;border-radius:8px;margin:12px 0 6px}
+.e{text-align:center;color:var(--mu);padding:30px}
+.opt{display:block;width:100%;text-align:left;margin-bottom:8px;padding:12px 14px;border-radius:12px;border:1px solid var(--bd);background:var(--card);color:var(--tx);font:inherit}
+.opt.ok{background:#16a34a;border-color:#16a34a;color:#fff}.opt.no{background:#dc2626;border-color:#dc2626;color:#fff}
+.opt.sel{border-color:var(--ac);background:var(--ac2)}.g{display:grid;grid-template-columns:1fr 1fr;gap:8px}.mt{font-size:14px;margin-bottom:8px}
+</style></head><body><div id="sp"><div id="sw"></div><div id="si">⚖️</div><div id="st"></div><div id="ss">Huquqiy atamalar</div></div><div class="w">
+<h1 id="h1">Atamalar</h1><p class="sub" id="hs"></p><div id="home"></div><button class="tab" id="back" style="display:none">← Bosh sahifa</button>
+<div id="modes" style="display:none"></div>
+<div class="tabs" id="tabs"></div>
+<div class="tabs" id="sub" style="display:none"></div>
+<div id="dict"><input id="q" placeholder="Atama qidirish..." autocomplete="off">
+<div class="cnt" id="cnt"></div><div id="list"></div></div>
+<div id="quiz" style="display:none"></div><div id="mx" style="display:none"></div></div>
+<script>
+const D={"8-sinf":`Adliya|arabcha “adolat”|Huquqni muhofaza qiluvchi organlar va ularning faoliyatini anglatadi.
+Advokat|lotincha “yordamga chaqirish”|Yuridik va jismoniy shaxslarga malakali huquqiy yordam ko‘rsatuvchi shaxs.
+Agressiya|lotincha “hujum”|Xalqaro huquqda BMT nizomi nuqtayi nazaridan, qurolli kuchlarning g‘ayriqonuniy qo‘llanilishi.
+Aliment|lotincha “ta’minotdagi”|Bir shaxsning boshqa shaxsga to‘laydigan nafaqasi.
+Amnistiya|yunoncha “unutish”|Jinoyat sodir etganlarni jazodan ozod etish yoki uni yumshatish.
+Apellatsiya|lotincha “murojaat”|Sud qarori ustidan shikoyat qilish shakllaridan biri.
+Apatrid|yunoncha “vatandan judo bo‘lgan”|Fuqaroligi bo‘lmagan shaxs.
+Aqli norasolik||Ruhiy kasallik yoki aqliy zaiflik holati bo‘lib, shaxsning o‘z harakatlariga baho bera olmasligi.
+Aqli rasolik||Odamning ruhiy jihatdan sog‘lom holati; shaxs o‘z harakatini anglaydi va boshqara oladi.
+Armiya|lotincha “qurollantirish”|Davlat qurolli kuchlari bo‘lib, jangovar amaliyotlar olib borishga mo‘ljallangan birlashmasi.
+Auditor|lotincha “tinglovchi”|Tashkilotning moliya-xo‘jalik faoliyatini tekshiruvchi malakali jismoniy shaxs.
+Aybsizlik prezumpsiyasi|lotincha “praesumptio” — “taxmin”|Ayb sud tomonidan isbotlanguniga qadar ayblanuvchi aybsiz deb hisoblanadigan qoida.
+Bezorilik||Jamiyatda yurish-turish qoidalarini qasddan mensimaslik, urish-do‘pposlash, mulkka zarar yetkazish.
+Bitim||Jismoniy yoki yuridik shaxslarning fuqarolik huquq va burchlarini belgilash, o‘zgartirish yoki bekor qilishga qaratilgan harakatlari.
+Bosqinchilik||O‘zganing mol-mulkini talon-taroj qilish maqsadida hujum qilib, hayot yoki sog‘liq uchun xavfli zo‘rlik ishlatib sodir etilgan jinoyat.
+Budjet|inglizcha “karmon”|Davlatning muayyan muddatga qonuniy tartibda tasdiqlangan daromad va xarajatlari.
+Da’vo||Fuqaroviy huquqlarni himoya qilish haqida sudga qilingan murojaat.
+Da’vogar||Buzilgan huquqni himoya qilish uchun sudga murojaat etgan yuridik yoki jismoniy shaxs.
+Deklaratsiya|lotincha “e’lon”|Tavsiya kuchiga ega huquqiy hujjat; bojxona, soliq, siyosiy deklaratsiyalar turlari bor.
+Demokratiya|yunoncha “xalq hokimiyati”|Xalq hokimiyatchiligi, siyosiy plyuralizm, fuqarolar erkinligi va tengligiga asoslangan siyosiy tartibot shakli.
+Deputat|lotincha “elchi”, “vakil”|Davlatning qonun chiqaruvchi yoki boshqa vakillik organiga saylangan shaxs.
+Diskriminatsiya|lotincha “farqlash”|Xalqaro yoki milliy munosabatlarda biror davlatning, yuridik yoki jismoniy shaxsning huquq va imtiyozlarini boshqalarga nisbatan cheklash, kamsitish.
+Ekspertiza|lotincha “tajribali”|Muayyan masalalarning ekspertlar tomonidan tekshirib o‘rganilishi.
+Emansipatsiya|lotincha “qaramlikdan ozod bo‘lish”|Fuqarolik huquqida voyaga yetmagan shaxsni to‘liq muomalaga layoqatli deb e’lon qilish.
+Federatsiya|lotincha “ittifoq bilan mustahkamlamoq”|Davlatlar birlashmasi bo‘lib, birlashuvchi davlatlar qonun bilan belgilangan mustaqillikni saqlab qoladi.
+Firibgarlik||Aldash yoki ishonchni suiiste’mol qilish yo‘li bilan o‘zganing mulkini egallash.
+Fuqarolik||Shaxsning aniq davlat bilan barqaror siyosiy-huquqiy aloqalari.
+Fuqarolik jamiyati||Insonning barcha huquqlari kafolatlanadigan, mafkuraviy plyuralizm ta’minlanadigan, yuksak huquqiy madaniyatga ega shaxslardan iborat jamiyat.
+Genotsid|yunoncha “genos” — “urug‘” va lotincha “caedo” — “o‘ldiraman”|Aholi ayrim guruhlarini milliy, irqiy, diniy bahonalar bilan qirib tashlash.
+Guvoh||Ro‘y bergan hodisani shaxsan o‘z ko‘zi bilan ko‘rgan, bilganlarini aytib berish uchun sudga chaqirilgan kishi.
+Haqorat qilish||Kishining sha’ni va qadr-qimmatini qasddan, beodob shaklda kamsitishda ifodalanadigan huquqbuzarlik.
+Hukm||Jinoyat ishlari bo‘yicha sudning ayblanuvchiga jazo berish yoki uni oqlash to‘g‘risida chiqargan qarori.
+Huquqiy munosabat||Ijtimoiy munosabatlarning huquq normalari bilan tartibga solingan qismi.
+Huquq layoqati||Shaxsning huquqlar va burchlarga ega bo‘lish imkoniyati.
+Immunitet|lotincha “biror narsadan ozod qilish”|Alohida mavqeni egallagan shaxslarga taqdim etiladigan ba’zi umumiy qonunlarni istisno qiluvchi mutlaq huquq (masalan, sudya, deputat, senator).
+Intellektual mulk||Ijodiy faoliyat natijalariga doir maxsus huquqlarning majmuyi.
+Ishsizlar||Ish va ish haqiga ega bo‘lmagan, o‘zlariga to‘g‘ri keladigan ishni izlash maqsadida bandlik xizmatida ro‘yxatga olingan mehnatga layoqatli shaxslar.
+Jabrlanuvchi||Jinoiy harakati natijasida zarar ko‘rgan shaxs.
+Jarima||Aybdordan davlat daromadiga qonunda belgilangan miqdorda undiriladigan pul summasi.
+Jazo||Huquqbuzar deb topilgan shaxsga nisbatan davlat nomidan sud hukmi asosida qo‘llaniladigan, muayyan huquq va erkinliklardan mahrum qilishdan iborat majburlov chorasi.
+Jinoyat||Qonun bilan taqiqlangan, jazoga loyiq, ijtimoiy xavfli qilmish.
+Jismoniy shaxs||Fuqaro, chet el fuqarosi, fuqaroligi bo‘lmagan shaxs.
+Kassatsiya|lotincha “bekor qilish”|Kuchga kirgan sud qarori yoki hukm ustidan yuqori sudga shikoyat qilish.
+Kodeks|lotincha|Huquqning biror tarmog‘iga oid qonun-qoidalar to‘plami.
+Kompensatsiya|lotincha “to‘lash”|Fuqarolik-huquqiy majburiyatlar buzilishi natijasida yuzaga kelgan zararni to‘lash.
+Konstitutsiya|lotincha “tuzilish”|Davlat tuzilishi, organlar tizimi, fuqarolarning asosiy huquq va burchlarini belgilab beradigan asosiy qonun.
+Konvensiya|lotincha “kelishuv”|Xalqaro shartnoma turlaridan biri bo‘lib, majburiy ahamiyat kasb etadi.
+Korrupsiya|lotincha “aynish”, “sotilish”|Mansabdor shaxsning o‘z mansabi bo‘yicha berilgan huquqlarni shaxsiy boy ish maqsadida suiiste’mol qilishi.
+Kvorum|lotincha “yetarlicha hozirlik”|Yig‘ilish qatnashchilarining qarorlari haqiqiy deb tan olinadigan eng kam soni.
+Legitimlik|lotincha “qonuniy”|Huquq yoki vakolat qonuniyligini tan olish yoki tasdiqlash.
+Litsenziya|lotincha “ruxsatnoma”, “huquq”|Vakolatli davlat organlari tomonidan tegishli faoliyat olib borish uchun beriladigan ruxsatnoma.
+Mayda bezorilik||Jamoat joylarida uyatli so‘zlar bilan so‘kinish, fuqarolarga haqoratomuz shilqimlik qilish hamda jamoat tartibini buzuvchi harakatlar.
+Meros||Vafot etgan shaxsning qarindoshlari va boshqa yaqin kishilari ixtiyoriga o‘tadigan mulk.
+Muomala layoqati||Fuqarolarning o‘z harakatlari bilan fuqarolik huquq va majburiyatlarini olish va amalga oshirish, o‘zi uchun burchlarni yaratish va ularni bajarish layoqati.
+Naturallashtirish|fransuzcha “tabiiy”|Xorijiy shaxsni fuqarolikka qabul qilish.
+Notarius||Notarial harakatlarni amalga oshiruvchi mansabdor shaxs.
+Ombudsman|shvedcha “allakimningdir manfaatlari vakili”|Davlat organlari tomonidan inson huquqlariga rioya etilishi ustidan nazorat qiluvchi mansabdor shaxs.
+Parlament|inglizcha va fransuzcha “so‘zlamoq”|Davlatning oliy vakillik va qonun chiqaruvchi organining nomlanishi. O‘zbekistonda Oliy Majlis.
+Preambula|fransuzcha “so‘zboshi”|Qonun yoki boshqa normativ-huquqiy hujjatning kirish qismi.
+Prezident|lotincha “oldinda o‘tiruvchi”|Respublika boshqaruv shakliga ega mamlakatlarda davlat va ijro etuvchi hokimiyat boshlig‘i.
+Qasamyod||Ont ichish, biror narsani bajarishga rasmiy yoki tantanali ravishda va’da berish.
+Qasd||Aybning shakllaridan biri; jinoyatchi o‘z qilmishining ijtimoiy xavfli ekanligini anglaydi va unga ongli ravishda qo‘l uradi.
+Qonun||Eng muhim va barqaror ijtimoiy munosabatlarni tartibga soladigan, Oliy Majlis yoki referendum yo‘li bilan qabul qilinadigan normativ-huquqiy hujjat.
+Referendum|lotincha “bildirilishi shart bo‘lgan narsa”|Barcha fuqarolar ishtirok etadigan umumxalq so‘rovi.
+Sanksiya|lotincha “qat’iy qaror”|Huquqbuzarga nisbatan davlat tomonidan qo‘llaniladigan ehtiyot choralari.
+Sessiya|lotincha “yig‘ilish”|Majlis, kengash, vakolatli organlarning tashkiliy-huquqiy faoliyat shakli.
+Senzura|lotincha “davlat nazorati”|Davlat tashkiloti tomonidan g‘oyalar va ma’lumotlarning tarqalishiga yo‘l qo‘ymaslik yoki cheklab qo‘yish maqsadida nazorat.
+Standart|inglizcha “norma”, “mezon”, “asos”|Standartlashtirish obyektiga nisbatan talablarni belgilaydigan normativ-texnik qoidalar.
+Suverenitet|fransuzcha “oliy hokimiyat”|Davlatning mamlakat ichida va uning tashqi munosabatlardagi mustaqilligi.
+Taloncilik||Mol-mulkni ochiqdan-ochiq talon-taroj qilish.
+Terrorizm|lotincha “qo‘rquv”, “dahshat”|Siyosiy, diniy, mafkuraviy maqsadlarga erishish uchun shaxsning hayoti, sog‘lig‘iga xavf tug‘diruvchi, mol-mulkni yo‘q qilinishi xavfini keltirib chiqaruvchi harakatlar.
+Tovlamachilik||Zo‘rlik ishlatish tahdidi bilan mol-mulkni berishni talab qilishga qaratilgan jinoyat.
+Tuhmat||Boshqa shaxsni badnom qiladigan yolg‘on ma’lumotlarni qasddan tarqatish.
+Umumiy mulk||Qonunchilikka ko‘ra ikki yoki undan ortiq shaxsga tegishli mulk.
+Umumiy saylov huquqi||Qonunda belgilangan yoshga yetgan barcha fuqarolar hokimiyatning vakolat organlariga bo‘ladigan saylovlarda qatnashish huquqi.
+Unitar|lotincha “oddiy”, “yagona”|Yagona, birlashgan, bir butunni tashkil etuvchi; davlat tuzilish shakli.
+Ushlab turish, hibs||Jinoyat qilishni sodir etishda shubhalanayotgan shaxsga nisbatan qo‘llaniladigan, 48 soatdan oshmaydigan qisqa muddatli majburlov chorasi.
+Vijdon erkinligi||Shaxslarning har qanday dinga e’tiqod qilish yoki hech qaysi dinga e’tiqod qilmaslik huquqi.
+Voyaga yetmaganlar||18 yoshga to‘lmagan shaxslar.
+Viza|lotincha “o‘tkazilgan”, “ko‘zdan kechirilgan”|Pasportda davlatning hududiga kelishga va davlat hududida yashab turishga bo‘lgan maxsus ruxsatni bildiruvchi belgi.
+Yuridik javobgarlik||Jazoga tortish, yuridik majburiyatlarni buzgan shaxs, aybdorga nisbatan qonunda ko‘zda tutilgan sanksiyalarni qo‘llash.
+Yuridik faktlar||Huquq va majburiyatlarni vujudga keltirish, o‘zgartirish yoki bekor qilish bilan bog‘liq harakat yoki hodisalar.
+Yuridik shaxs||O‘z mulkida, xo‘jalik yuritishida yoki operativ boshqaruvida alohida mol-mulkka ega bo‘lgan hamda o‘z majburiyatlari yuzasidan ushbu mol-mulk bilan javob beradigan tashkilot.
+Shartnoma||Ikki yoki bir necha shaxsning fuqarolik huquqlari va burchlarini vujudga keltirish, o‘zgartirish yoki bekor qilish haqidagi kelishuvi.`,
+"9-sinf":`Ariza||Fuqarolarning o‘z huquqlari, erkinliklari va qonuniy manfaatlarini amalga oshirish uchun ko‘mak so‘rab qilgan murojaatlari.
+Atrof-muhitni muhofaza qilish||Inson faoliyatining atrof-muhitga salbiy ta’sirini cheklash va uning oldini olishga qaratilgan chora-tadbirlar majmuyi.
+Aybsizlik prezumpsiyasi||Jinoyat sodir etganlikda ayblanayotgan shaxs uning aybi qonunda nazarda tutilgan tartibda isbotlanib, hukm kuchga kirmaguncha aybsiz deb hisoblanishi.
+Burch||Kishining biror shaxs, oila, jamoa, el-yurt, vatan oldidagi majburiyatini anglatuvchi axloqiy tushuncha; huquqiy holatda davlat tomonidan belgilangan talablarni bajarish.
+Davlat suvereniteti||Hokimiyatni amalga oshirishda mamlakat ichkarisi va tashqarisida to‘la-to‘kis mustaqillik.
+Demokratiya||Fuqarolarning davlatni boshqarishda ishtirok etish usullari orqali davlatni boshqarish.
+Deputat||Davlat vakillik organining saylab qo‘yilgan a’zosi; O‘zbekistonda Oliy Majlis, Qoraqalpog‘iston Jo‘qorg‘i Kengesi, viloyat, tuman va shahar kengashlari deputatlari xalq vakolatli vakili.
+Dunyoviy davlat||Diniy tashkilotlar va birlashmalar davlatdan hamda davlat boshqaruvi Konstitutsiya va qonun hujjatlari bilan tartibga solinadigan davlat.
+Erkinlik||Inson uchun oliy ne’mat bo‘lib, uning qonunda taqiqlanmagan har qanday ishni qila olishi.
+Fraksiya||Biror-bir siyosiy partiyaning siyosatini parlamentda ifoda etuvchi, ma’lum tashkiliy guruh.
+Fuqarolarning o‘zini o‘zi boshqarishi||Fuqarolarning mahalliy ahamiyatga molik masalalarni o‘z manfaatlaridan, tarixiy xususiyatlardan, urf-odatlar va an’analardan kelib chiqqan holda hal qilish borasidagi mustaqil faoliyati.
+Fuqarolik jamiyati||Uzviy bog‘liqlikda bo‘lgan hamda axloqiy madaniyatga ega odamlardan iborat jamiyat.
+Hokim||O‘zbekiston Respublikasi viloyat, tuman, shaharda oliy mansabdor shaxs; mahalliy vakillik va ijro etuvchi hokimiyat boshlig‘i.
+Hokimiyatlar bo‘linishi prinsipi||Davlat hokimiyati tizimi faoliyatining asosiy prinsipi bo‘lib, davlat hokimiyati qonunchilik, ijro etuvchi va sud hokimiyatiga bo‘linadi.
+Huquq||Davlat tomonidan o‘rnatilgan va u tomonidan himoya qilinadigan barcha uchun majburiy bo‘lgan xulq-atvor qoidalari tizimi.
+Huquqiy davlat||Huquq ustuvorligi ta’minlangan, inson va fuqarolarning huquq va erkinliklari kafolatlangan, qonunlar oldida barcha teng bo‘lgan davlat.
+Huquqiy madaniyat||Kishilarning huquqiy bilim darajasi, huquqni hurmat qilishi va unga rioya qilishi.
+Huquqiy nigilizm||Huquqqa, qonunlarga salbiy, ularni inkor qiluvchi, hurmatsiz munosabatda bo‘lish.
+Huquqiy tartibot||Jamiyatdagi munosabatlarning ma’lum bir holati, unga davlatning huquqiy me’yorlarida mavjud bo‘lgan barcha qonun-qoidalarga majburiy ravishda rioya qilinishi natijasida erishiladi.
+Imtiyoz||Turli xil afzalliklar, yengilliklar berish.
+Inson huquqlari||Insonning ijtimoiy hayotdagi, qonunlarda belgilab qo‘yilgan vakolatlari va imkoniyatlari.
+Intellektual mulk||Ixtirolar, ilmiy kashfiyotlar, adabiy, musiqiy asarlarni yaratish kabi ijodiy faoliyat natijalari.
+Jamoat birlashmasi||O‘z huquqlari, erkinliklarini hamda siyosat, iqtisodiyot, ijtimoiy rivojlanish, fan, madaniyat, ekologiya va hayotning boshqa sohalaridagi qonuniy manfaatlarini birgalikda ro‘yobga chiqarish uchun birlashgan fuqarolarning xohish-irodalarini erkin bildirishlari natijasida vujudga kelgan ixtiyoriy tuzilma.
+Konstitutsiya||Yuridik kuchga ega bo‘lgan rasmiy hujjat bo‘lib, unda inson va fuqaroning huquq va erkinliklari belgilanadi, davlat boshqaruvi va hududiy tuzilishi, davlat organlarining vakolatlari belgilab qo‘yiladi.
+Konstitutsiya muqaddimasi||Konstitutsiyada qabul qilinayotgan maqsadlar va prinsiplarni xalq nomidan tantanali e’lon qilish.
+Konstitutsiyaviy huquq||Huquqning mustaqil tarmog‘i sifatida mamlakatning konstitutsiyaviy tuzilishi asoslarini, jamiyat tuzilishini, davlat hokimiyati va boshqaruv tizimini belgilovchi yuridik me’yorlardan iborat.
+Madaniy huquqlar||Shaxsning madaniy boyliklardan foydalanish va yaratish, madaniy hayotda ishtirok etish erkinligini ta’minlaydigan huquqlar.
+Miting||Ma’lum bir shaxslar va tashkilotlarning xatti-harakatlari, ijtimoiy-siyosiy voqealarga nisbatan munosabatini oshkora ifodalash maqsadidagi fuqarolarning tinch yig‘ini.
+Mulkdor bo‘lish huquqi||Mulkka qanday egalik qilish, undan foydalanish va uni tasarruf etishni belgilovchi, shuningdek, ushbu vakolatlarni himoya qilishni ta’minlaydigan huquqiy normalar yig‘indisi.
+Nodavlat notijorat tashkiloti||Jismoniy va (yoki) yuridik shaxslar tomonidan ixtiyoriylik asosida tashkil etilgan, daromad (foyda) olishni o‘z faoliyatining asosiy maqsadi qilib olmagan hamda olingan daromadini o‘z qatnashchilari o‘rtasida taqsimlamaydigan o‘zini o‘zi boshqarish tashkiloti.
+Normativ-huquqiy hujjat||Vakolatli davlat organlari tomonidan qabul qilingan huquqiy normalarni belgilashga, o‘zgartirishga yoki bekor qilishga qaratilgan rasmiy hujjat.
+Odil sudlov||Haqiqiy holatni aniqlab, odamlar orasidagi, ular bilan jamiyat va davlat o‘rtasidagi kelishmovchilik va nizolarni faqat sud tomonidan hal etilishi.
+Ombudsman||Mansabdor shaxs bo‘lib, davlat organlari, korxonalar, tashkilotlar to‘g‘risidagi qonunchilikka rioya etilishi ustidan parlament nazoratini olib boradi.
+O‘zbekiston Respublikasi Vazirlar Mahkamasi||O‘zbekiston Respublikasi hukumati. Ijro etuvchi hokimiyatning markaziy organi.
+Prezident||Respublika boshqaruv shaklidagi ko‘plab mamlakatlarda ma’lum muddatga saylab qo‘yiladigan davlat boshlig‘i.
+Qonun ustuvorligi||Barcha davlat hokimiyati organlari faoliyatida qonunlar oliy yuridik kuchga ega bo‘lishi.
+Referendum||Umumxalq ovoz berish yo‘li bilan qonunlar qabul qilish va davlat ahamiyatiga molik eng muhim masalalarni hal qilish shakli.
+Reglament||Muayyan davlat organi yoki bo‘linmasining ichki tashkiliy hamda faoliyat tartibini belgilovchi normativ-huquqiy hujjat.
+Respublika||Bunday boshqaruv shaklida saylab qo‘yiladigan organlar saylovchilar oldida javobgar bo‘ladi, ular muayyan muddatga saylanadi va davlat hokimiyatini xalq nomidan amalga oshiradi.
+Senat||Davlat hokimiyatining yuqori organi bo‘lib, ko‘pincha qonunchilik kengashlari (parlament)ning yuqori palatasi; O‘zbekiston Respublikasi Oliy Majlisining yuqori palatasi.
+Siyosiy huquqlar||Fuqarolarning jamiyat va davlat boshqaruvida, siyosiy hayotda ishtirok etish imkoniyatini ta’minlovchi huquqlar.
+Siyosiy partiya||O‘zbekiston Respublikasi fuqarolarining qarashlar, manfaatlar va maqsadlar mushtarakligi asosida tuzilgan, davlat hokimiyati organlarini shakllantirishda hamda o‘z vakillari orqali davlat va jamoat ishlarini idora etishda qatnashuvchi ko‘ngilli birlashma.
+Sud hokimiyati||Hokimiyatlar bo‘linishi qoidasiga ko‘ra, davlat hokimiyatining alohida va mustaqil tarmog‘i.
+Taklif||Fuqarolarning davlat va jamoatchilik faoliyatini takomillashtirish bo‘yicha tavsiyalarini ifodalovchi murojaat.
+Tashqi siyosat||Xalqaro hayotda ishtirok etgan holda o‘z chegarasidan tashqarida davlatning boshqa davlatlar, xalqaro tashkilotlar bilan munosabatini, xalqaro munosabatlardagi umumiy yo‘nalishini amalga oshirishdan iborat.
+Unitar davlat||Yagona davlat bo‘lib, uning alohida ma’muriy-hududiy birliklari bir xildagi huquqlarga ega, butun davlat hududida yagona konstitutsiya, yagona hukumat va yagona qonun hujjatlari amal qiladi.
+Vasiyatnoma||Vasiyat qiluvchi o‘z merosxo‘rlarini va ularga merosni berish tartibini belgilaydigan hujjat.
+Vazir||O‘zbekiston Respublikasida hukumat a’zosi hamda ma’lum bir vazirlikni boshqaruvchi yuqori mansabdor shaxs.
+Vijdon erkinligi||Har kimning xohlagan dinga e’tiqod qilish yoki hech qaysi dinga e’tiqod qilmaslik huquqi.
+Xalqaro huquq||Xalqaro muloqot jarayonida davlatlararo munosabatlarni tartibga solib turuvchi yuridik qoidalar majmuyi.
+Yig‘ilish||Biror-bir muhim jamoatchilik masalasini jamoa bo‘lib birgalikda muhokama qilish uchun fuqarolar ishtiroki.
+YUNEP||Atrof-muhit muhofazasi bo‘yicha BMT dasturi.
+Shaxs daxlsizligi||O‘zbekiston Respublikasida har bir kimsaning tug‘ilganidan boshlab tan olinadigan uzviy huquqi; shaxs daxlsizligi jismoniy, axloqiy va ma’naviy jihatlarga ega.
+Shaxsiy huquq va erkinliklar||Inson tug‘ilgan zahoti ega bo‘ladigan, uning asosiy hayotiy ehtiyojlarini ta’minlaydigan, tabiiy, ajralmas huquqlari.
+Shikoyat||Fuqarolarning buzilgan huquqlari, erkinliklari va qonuniy manfaatlarini tiklashni talab qiluvchi murojaatlari.`,
+"10-sinf":`Ayb||Shaxsning sodir etgan jinoyatiga o‘zining munosabati; masalan, “Bekor qildim-da” degan tuyg‘u paydo bo‘lishi.
+Advokat||Sizning huquqlaringizni himoya qiladigan shaxs; kimdir uyingizni noqonuniy olib qo‘ygan bo‘lsa, advokatga murojaat qilib, uning yordami bilan uyingizni qaytarib olishingiz mumkin.
+Bezorilik||Jamiyatdagi yurish-turish qoidalarini buzish va mensimaslik; jamoat joylarida nomaqbul ishlarni qilish.
+Bitim||Fuqaro va yuridik shaxslarning o‘zaro kelishuvga olib keladigan harakatlari; masalan, sizning do‘konga borib, muzqaymoq sotib olishingiz bitim bo‘ladi.
+Blog||Inglizcha “web log” so‘zidan qisqartirib yasalgan; “internet kundalik”, “onlayn bitik” kabi ma’nolarni anglatadi.
+Bloger||O‘z sayti yoki ijtimoiy tarmoqlardagi sahifasi orqali fikr-mulohazalarini, munosabatlarini beruvchi, blog yurituvchi kishi.
+Burch||Bajarishimiz kerak bo‘lgan ishlar; masalan, vatanimizni himoya qilishimiz, Konstitutsiya va qonunlarga itoat etishimiz, ota-bobolarimizdan qolgan tarixiy, madaniy va ma’naviy merosni asrab-avaylashimiz.
+Buyruq||Bajarilishi majburiy bo‘lgan, bir kishi tomonidan chiqariladigan huquqiy hujjat; masalan, maktab direktori tomonidan chiqarilgan hujjat buyruq bo‘ladi.
+Davlat mulki||Davlat ixtiyorida bo‘lgan va davlat hokimiyati organlari tomonidan tasarruf etiladigan mulk.
+Davlat tili||Davlat yoki xalqaro tashkilotda ustuvor mavqega ega bo‘lgan til; O‘zbekistonda davlat tili o‘zbek tili hisoblanadi.
+Firibgarlik||Birovning ishonchiga kirib, aldab mol-mulkini o‘zlashtirib olish.
+Fuqarolarning tenghuquqliligini buzish||Odamlarni tili, dini, millati, irqi va ijtimoiy kelib chiqishiga qarab ajratish; ba’zilarga huquqlarni ko‘proq berib, boshqalarning huquqlarini cheklab qo‘yish.
+Guvohnoma||Yuridik faktlarni tasdiqlovchi hujjat; masalan, A. qachon tug‘ilganini uning tug‘ilganlik haqidagi guvohnomasiga qarab bilib olishimiz mumkin.
+Hadya||O‘ziga tegishli mol-mulkni birovga tekinga berish, sovg‘a qilish.
+Ijtimoiy munosabatlar||Turmushning turli sohalarida ishlatiladigan munosabatlar; masalan, sinfda eng yaxshi o‘qiydigan o‘quvchilarning imtihonlarni topshirmasdan turib sinfdan sinfga o‘tishi.
+Imtiyoz||Turli xil afzalliklar, yengilliklar berish.
+Islohot||Yangilanish, o‘zgarish, tuzatish; masalan, bolalarni o‘qitishni yaxshilash uchun maktabga zamonaviy asbob-uskunalar, yangi darsliklar, katta tajribaga ega o‘qituvchilar olib kelinadi.
+Jahon hamjamiyati||Jahonda mavjud davlatlarning hozir insoniyat oldida turgan global muammolarni hamkorlikda hal qilishda, umumiy maqsad yo‘lida faoliyat ko‘rsatishda birligini anglatuvchi tushuncha.
+Jismoniy shaxs||O‘zbekiston Respublikasi fuqarolari, chet el fuqarolari va fuqaroligi bo‘lmagan shaxslar.
+Kodeks||Bir soha bo‘yicha bir tizimga solingan huquqiy qoidalar yig‘indisi; masalan, Fuqarolik kodeksi, Jinoyat kodeksi va boshqalar.
+Konferensiya||Biron-bir masalani hal etish uchun tashkil etiladigan majlis, yig‘ilish.
+Korrupsiya||Shaxsning shaxsiy manfaatlarini yoxud o‘zga shaxslarning manfaatlarini ko‘zlab o‘z mansab xizmat mavqeyidan moddiy yoki nomoddiy naf olish maqsadida qonunga xilof ravishda foydalanishi.
+Memorandum||Diplomatik yozishmalar hujjati; ya’ni ikki yoki undan ortiq davlatning biror masalani hal etish bo‘yicha imzolagan diplomatik hujjati.
+Migratsiya||Ko‘chish; aholining bir joydan ikkinchi joyga ko‘chishi.
+Nafaqa||Aholini moddiy ta’minlash shakllaridan biri; kasal bo‘lganda, jarohat olganda, homiladorlik va bola tug‘ilganda, ishsiz qolganda va boshqa holatlarda tayinlanadi.
+Nikoh||Erkak va ayolning o‘zaro ixtiyoriy roziligi bilan tuzilgan ittifoq; O‘zbekiston Respublikasi Oila kodeksiga ko‘ra, erkak yoki ayoldan biri rozi bo‘lmasa, nikoh tuzilmaydi.
+Nikoh yoshi||Oila qurish mumkin bo‘lgan yosh; O‘zbekistonda nikoh yoshi 18 yosh.
+Oila||Nikoh yoki tug‘ishganlikka asoslangan kichik guruh; ota-ona, farzandlar va boshqa yaqin qarindoshlarning birlashmasi “oila” deyiladi.
+Oldi-sotdi||Biror mol-mulk kimgadir sotish yoki sotib olish.
+Oliy Majlis||Davlatning oliy vakillik organi; O‘zbekiston Respublikasi Oliy Majlisi ikki palatadan — Qonunchilik palatasi (quyi palata) va Senatdan (yuqori palata) iborat; vakolat muddati besh yil.
+Pasport||Shaxs qaysi davlat fuqarosi ekanini belgilaydigan hujjat.
+Pensiya||Fuqarolar ma’lum bir yoshga yetganida davlat tomonidan tayinlanadigan doimiy to‘lov; pensiya bir umrga tayinlanadi.
+Pora berish||Mansabdor shaxsga biror xizmati evaziga noqonuniy pul mablag‘i berish.
+Prokuror||Prokuratura organlarining mas’ul mansabdor shaxsi; fransuzchada “qoralovchi”, lotinchada “g‘amxo‘rlik qilish” degan ma’noni anglatadi.
+Qonun||Davlat oliy vakillik organining yuqori kuchga ega bo‘lgan hujjati.
+Ratifikatsiya|lot. ratus — “hal qilingan”, “tasdiqlangan” va facere — “qilmoq”|Xalqaro shartnomaning davlat hokimiyati oliy organi tomonidan tasdiqlanishi; masalan, O‘zbekistonda xalqaro shartnomalarni ratifikatsiya qilish to‘g‘risidagi Oliy Majlis Qonunchilik palatasi va Senati birgalikda qaror qabul qiladi.
+Soliq||Davlat tomonidan undiriladigan va byudjetga o‘tkaziladigan majburiy to‘lov; soliqlarni to‘lashdan bosh tortish ma’muriy va jinoiy javobgarlikka sabab bo‘ladi.
+Sud||Odil sudlovni amalga oshiruvchi mustaqil organ.
+Suverenitet||Davlatning boshqa davlatlardan ichki va tashqi siyosatda mustaqilligi.
+Valyuta||Muayyan mamlakatning pul birligi; masalan, O‘zbekistonda — so‘m, Rossiya Federatsiyasida — rubl, AQShda — dollar va boshqalar.
+Vasiyat||Fuqaroning vafot etgan taqdirda o‘ziga tegishli bo‘lgan mol-mulkni tasarruf etish xususidagi xohish-irodasi.
+Vasiylik||14 yoshga to‘lmagan bolalarga va sud tomonidan muomalaga layoqatsiz deb topilgan shaxslarga nisbatan belgilanadigan huquqiy shakl.
+Voyaga yetmaganlar||O‘zbekiston Respublikasining amaldagi qonunchiligiga ko‘ra, 18 yoshga yetmagan fuqarolar.
+Xalqaro huquq||Xalqaro muloqotdagi davlatlararo va boshqa qatnashuvchilar (subyektlar) o‘rtasidagi munosabatlarni tartibga soluvchi ommaviy yuridik prinsiplar va normalar majmui.
+Xususiy mulk||Mulkni o‘zlashtirishning xususiy usuliga asoslangan shakli.`};
+let cur="8-sinf";
+const L=s=>s.split("\n").map(r=>{const p=r.split("|");return{t:p[0],o:p[1],d:p[2]}}).sort((a,b)=>a.t.localeCompare(b.t,"uz"));
+const T={};for(const k in D)T[k]=L(D[k]);T["Barchasi"]=Object.values(T).flat().sort((a,b)=>a.t.localeCompare(b.t,"uz"));
+const $=id=>document.getElementById(id);
+function tabs(){$("tabs").innerHTML=Object.keys(T).map(k=>`<button class="tab ${k==cur?"on":""}" data-k="${k}">${k}</button>`).join("");
+document.querySelectorAll("#tabs .tab").forEach(b=>b.onclick=()=>{cur=b.dataset.k;tabs();go()})}
+function draw(){const q=$("q").value.trim().toLowerCase();
+const a=T[cur].filter(x=>!q||x.t.toLowerCase().includes(q));
+$("cnt").textContent=cur+" — "+a.length+" ta atama";
+let h="",ch="";
+for(const x of a){const c=x.t[0].toUpperCase();if(c!==ch){ch=c;h+=`<div class="l">${c}</div>`}
+h+=`<div class="t"><b>${x.t}</b>${x.o?`<span class="o">${x.o}</span>`:""}<div class="d">${x.d}</div></div>`}
+$("list").innerHTML=h||'<div class="e">Hech narsa topilmadi</div>';
+document.querySelectorAll(".t").forEach(e=>e.onclick=()=>e.classList.toggle("open"))}
+$("q").oninput=draw;
+let mode="d",qs=[],qi=0,sc=0;
+const sh=a=>a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(x=>x[1]);
+function modes(){$("modes").innerHTML=[["d","Ro‘yxat"],["x","Moslashtirish"],["q","Test"]].map(([k,n])=>`<button class="tab ${k==mode?"on":""}" data-m="${k}">${n}</button>`).join("");
+$("sub").innerHTML=[["m","Ma’noni topish"],["t","Atamani topish"]].map(([k,n])=>`<button class="tab ${k==qt?"on":""}" data-s="${k}">${n}</button>`).join("");
+document.querySelectorAll("[data-m]").forEach(b=>b.onclick=()=>{mode=b.dataset.m;go()});
+document.querySelectorAll("#sub [data-s]").forEach(b=>b.onclick=()=>{qt=b.dataset.s;go()})}
+let qt="m";
+function go(){const h=mode=="h";$("home").style.display=h?"":"none";$("hs").style.display=h?"":"none";$("back").style.display=h?"none":"";$("tabs").style.display=h?"none":"";$("dict").style.display=mode=="d"?"":"none";$("quiz").style.display=mode=="q"?"":"none";$("mx").style.display=mode=="x"?"":"none";$("h1").textContent=h?"Atamalar":({d:"Atamalar ro‘yxati",x:"Moslashtirish",q:qt=="m"?"Ma’noni topish":"Atamani topish"})[mode];if(h)home();else mode=="d"?draw():mode=="x"?startX():startQ()}
+function sv(k,v,hi){try{const o=localStorage.getItem("rec"+k);if(o===null||(hi?v>+o:v<+o))localStorage.setItem("rec"+k,v)}catch(e){}}
+function home(){const n=T["Barchasi"].length;$("hs").textContent=n+" ta atama, "+(Object.keys(T).length-1)+" ta sinf. Bo‘limni tanlang.";
+const g=k=>{try{return localStorage.getItem("rec"+k)}catch(e){return null}};
+const C=[["q","m","Ma’noni topish","Atama ko‘rsatiladi, ma’nosini toping.",g("m")!==null?"Rekord: "+g("m")+"%":""],["q","t","Atamani topish","Ma’no ko‘rsatiladi, atamani toping.",g("t")!==null?"Rekord: "+g("t")+"%":""],["x","","Moslashtirish","6 ta atamani ma’nosi bilan juftlang.",g("x")!==null?"Rekord: "+g("x")+" xato":""],["d","","Atamalar ro‘yxati","Barcha atamalarni o‘qing va qidiring.",""]];
+$("home").innerHTML=C.map((c,i)=>`<button class="hc" data-i="${i}"><span class="r">${c[4]}</span><b>${c[2]}</b><small>${c[3]}</small></button>`).join("");
+document.querySelectorAll(".hc").forEach(b=>b.onclick=()=>{const c=C[b.dataset.i];mode=c[0];if(c[1])qt=c[1];go()})}
+let mp=[],mdone=0,mw=0;
+function startX(){mp=sh(T[cur].filter((x,i,a)=>x.d&&a.findIndex(y=>y.t===x.t)==i)).slice(0,6);mdone=0;mw=0;const z=$("mx"),R=sh(mp.slice()),cut=s=>s.length>90?s.slice(0,88)+"…":s;
+z.innerHTML=`<div class="cnt">${cur} · Atama va ma’nosini juftlang</div><div class="g"><div>`+mp.map((x,i)=>`<button class="opt mt" data-s="l" data-i="${i}">${x.t}</button>`).join("")+`</div><div>`+R.map(x=>`<button class="opt mt" data-s="r" data-i="${mp.indexOf(x)}">${cut(x.d)}</button>`).join("")+`</div></div><div id="mn"></div>`;
+z.querySelectorAll(".mt").forEach(b=>b.onclick=()=>{if(b.classList.contains("ok"))return;const s=b.dataset.s;z.querySelectorAll(`.mt.sel[data-s="${s}"]`).forEach(e=>e.classList.remove("sel"));b.classList.add("sel");
+const l=z.querySelector('.mt.sel[data-s="l"]'),r=z.querySelector('.mt.sel[data-s="r"]');
+if(l&&r){if(l.dataset.i===r.dataset.i){[l,r].forEach(e=>{e.classList.remove("sel");e.classList.add("ok")});mdone++;if(mdone==mp.length){sv("x",mw,0);$("mn").innerHTML=`<div class="t"><b>Barakalla! Xatolar: ${mw}</b></div><button class="tab on" id="ag">Yana</button>`;$("ag").onclick=startX}}else{mw++;[l,r].forEach(e=>{e.classList.remove("sel");e.classList.add("no");setTimeout(()=>e.classList.remove("no"),600)})}}})}
+function startQ(){qs=sh(T[cur].filter(x=>x.d));qi=0;sc=0;showQ()}
+function showQ(){const z=$("quiz");
+if(qi>=qs.length){sv(qt,Math.round(100*sc/qs.length),1);z.innerHTML=`<div class="t"><b>Natija: ${sc} / ${qs.length}</b><p><button class="tab on" id="again">Qayta boshlash</button></p></div>`;$("again").onclick=startQ;return}
+const x=qs[qi],m=qt=="m",o=sh([x,...sh(T[cur].filter(y=>y.t!==x.t&&y.d)).slice(0,3)]);
+z.innerHTML=`<div class="cnt">${cur} · ${qi+1}/${qs.length} · To‘g‘ri: ${sc}</div><div class="t"><b>${m?"“"+x.t+"” atamasining ma’nosi qaysi?":"Bu qaysi atama?"}</b>${m?"":`<div class="d" style="display:block">${x.d}</div>`}</div>`+o.map((v,i)=>`<button class="opt" data-i="${i}">${m?v.d:v.t}</button>`).join("")+'<div id="nx"></div>';
+const bs=z.querySelectorAll(".opt");let ans=false;
+bs.forEach((b,i)=>b.onclick=()=>{if(ans)return;ans=true;if(o[i]===x){sc++;b.classList.add("ok")}else{b.classList.add("no");bs[o.indexOf(x)].classList.add("ok")}
+$("nx").innerHTML='<button class="tab on" id="nb">'+(qi+1<qs.length?"Keyingisi":"Natijani ko‘rish")+'</button>';$("nb").onclick=()=>{qi++;showQ()}})}
+$("back").onclick=()=>{mode="h";go()};
+(function(){const s=$("sp");$("st").innerHTML="Atamalar".split("").map((c,i)=>`<span style="animation-delay:${.3+i*.09}s">${c}</span>`).join("");
+const W=["Qonun","Huquq","Konstitutsiya","Burch","Adliya","Suverenitet","Fuqarolik","Sud","Referendum","Parlament"];
+$("sw").innerHTML=W.map((w,i)=>`<i style="left:${(i*37+8)%80}%;animation-delay:${i*.25}s;animation-duration:${3+i%3}s">${w}</i>`).join("");
+let c=0;const x=()=>{if(c)return;c=1;s.classList.add("bye");setTimeout(()=>s.remove(),600)};s.onclick=x;setTimeout(x,3200)})();
+tabs();mode="h";go();
+</script></body></html>
